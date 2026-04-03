@@ -112,41 +112,70 @@ export function AuthPage({ onBack, onSuccess }: AuthPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
+      style={{ background: "oklch(0.98 0.003 20)" }}
+    >
+      {/* Background glow orbs */}
+      <div
+        className="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none animate-pulse"
+        style={{
+          background:
+            "radial-gradient(circle, oklch(0.52 0.22 27 / 0.7) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, oklch(0.52 0.22 27 / 0.5) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="w-full max-w-md relative z-10">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <button
             type="button"
             onClick={onBack}
-            className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-accent transition-colors"
+            className="w-9 h-9 rounded-full border flex items-center justify-center hover:bg-accent transition-colors"
+            style={{ borderColor: "oklch(0.52 0.22 27 / 0.3)" }}
             data-ocid="auth.back.button"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Heart className="w-4 h-4 text-primary fill-primary/30" />
-            </div>
-            <span className="font-display font-bold text-lg">DonorSync</span>
+          <div
+            className="flex items-center gap-2 px-4 py-2 rounded-full"
+            style={{
+              background:
+                "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+              boxShadow: "0 0 16px oklch(0.52 0.22 27 / 0.4)",
+            }}
+          >
+            <Heart className="w-4 h-4 text-white fill-white/60" />
+            <span className="font-display font-bold text-base text-white">
+              DonorSync
+            </span>
           </div>
         </div>
 
         <Tabs defaultValue="login">
           <TabsList
-            className="w-full rounded-full mb-6 bg-muted"
+            className="w-full rounded-full mb-6"
+            style={{ background: "oklch(0.96 0.025 18)" }}
             data-ocid="auth.tabs"
           >
             <TabsTrigger
               value="login"
-              className="flex-1 rounded-full"
+              className="flex-1 rounded-full data-[state=active]:text-white"
+              style={{ "--tw-bg-opacity": "1" } as React.CSSProperties}
               data-ocid="auth.login.tab"
             >
               Sign In
             </TabsTrigger>
             <TabsTrigger
               value="signup"
-              className="flex-1 rounded-full"
+              className="flex-1 rounded-full data-[state=active]:text-white"
               data-ocid="auth.signup.tab"
             >
               Sign Up
@@ -156,73 +185,100 @@ export function AuthPage({ onBack, onSuccess }: AuthPageProps) {
           {/* LOGIN */}
           <TabsContent value="login">
             <motion.div
-              className="bg-card rounded-2xl p-6 card-shadow border border-border space-y-4"
+              className="rounded-3xl overflow-hidden"
+              style={{
+                boxShadow:
+                  "0 8px 40px oklch(0.52 0.22 27 / 0.15), 0 2px 8px oklch(0 0 0 / 0.06)",
+              }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div>
-                <h2 className="font-display font-bold text-2xl text-foreground">
-                  Welcome back
-                </h2>
-                <p className="text-muted-foreground text-sm mt-1">
-                  Sign in to your DonorSync account
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <Label className="text-xs font-medium">Email</Label>
-                  <Input
-                    placeholder="you@example.com"
-                    type="email"
-                    className="rounded-xl mt-1"
-                    data-ocid="auth.email.input"
-                  />
+              {/* Red banner */}
+              <div
+                className="px-6 py-5 flex items-center gap-3"
+                style={{
+                  background:
+                    "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.40 0.20 22))",
+                }}
+              >
+                <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-white fill-white/60" />
                 </div>
                 <div>
-                  <Label className="text-xs font-medium">Password</Label>
-                  <Input
-                    placeholder="Your password"
-                    type="password"
-                    className="rounded-xl mt-1"
-                    data-ocid="auth.password.input"
+                  <h2 className="font-display font-bold text-xl text-white">
+                    Welcome back
+                  </h2>
+                  <p className="text-white/70 text-xs mt-0.5">
+                    Sign in to your DonorSync account
+                  </p>
+                </div>
+              </div>
+
+              {/* Form body */}
+              <div className="bg-white p-6 space-y-4">
+                <div className="space-y-3">
+                  <div>
+                    <Label className="text-xs font-semibold">Email</Label>
+                    <Input
+                      placeholder="you@example.com"
+                      type="email"
+                      className="rounded-xl mt-1"
+                      data-ocid="auth.email.input"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs font-semibold">Password</Label>
+                    <Input
+                      placeholder="Your password"
+                      type="password"
+                      className="rounded-xl mt-1"
+                      data-ocid="auth.password.input"
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  className="w-full rounded-full text-white font-semibold pulse-glow"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                  }}
+                  onClick={handleLogin}
+                  disabled={isLoggingIn}
+                  data-ocid="auth.login.submit_button"
+                >
+                  {isLoggingIn ? (
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  ) : null}
+                  Sign In
+                </Button>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-border" />
+                  </div>
+                  <div className="relative flex justify-center">
+                    <span className="bg-white px-3 text-xs text-muted-foreground">
+                      or continue with
+                    </span>
+                  </div>
+                </div>
+
+                <Button
+                  variant="outline"
+                  className="w-full rounded-full hover:bg-accent"
+                  style={{ borderColor: "oklch(0.52 0.22 27 / 0.3)" }}
+                  onClick={handleLogin}
+                  disabled={isLoggingIn}
+                  data-ocid="auth.internet_identity.button"
+                >
+                  <Shield
+                    className="w-4 h-4 mr-2"
+                    style={{ color: "oklch(0.50 0.22 27)" }}
                   />
-                </div>
+                  Internet Identity
+                </Button>
               </div>
-
-              <Button
-                className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-                onClick={handleLogin}
-                disabled={isLoggingIn}
-                data-ocid="auth.login.submit_button"
-              >
-                {isLoggingIn ? (
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                ) : null}
-                Sign In
-              </Button>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border" />
-                </div>
-                <div className="relative flex justify-center">
-                  <span className="bg-card px-3 text-xs text-muted-foreground">
-                    or continue with
-                  </span>
-                </div>
-              </div>
-
-              <Button
-                variant="outline"
-                className="w-full rounded-full border-border hover:bg-accent"
-                onClick={handleLogin}
-                disabled={isLoggingIn}
-                data-ocid="auth.internet_identity.button"
-              >
-                <Shield className="w-4 h-4 mr-2 text-primary" />
-                Internet Identity
-              </Button>
             </motion.div>
           </TabsContent>
 
@@ -232,237 +288,296 @@ export function AuthPage({ onBack, onSuccess }: AuthPageProps) {
               {signupStep === "role" && (
                 <motion.div
                   key="role"
-                  className="bg-card rounded-2xl p-6 card-shadow border border-border"
+                  className="rounded-3xl overflow-hidden"
+                  style={{ boxShadow: "0 8px 40px oklch(0.52 0.22 27 / 0.15)" }}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -16 }}
                 >
-                  <h2 className="font-display font-bold text-2xl text-foreground mb-1">
-                    Join DonorSync
-                  </h2>
-                  <p className="text-muted-foreground text-sm mb-5">
-                    Select your role to get started
-                  </p>
-                  <div className="grid grid-cols-2 gap-3 mb-5">
-                    {ROLES.map((role) => (
-                      <button
-                        type="button"
-                        key={role.value}
-                        onClick={() => setSelectedRole(role.value)}
-                        data-ocid={`signup.role.${role.value.toLowerCase()}.button`}
-                        className={`p-4 rounded-xl border-2 text-left transition-all ${
-                          selectedRole === role.value
-                            ? "border-primary bg-primary/5"
-                            : "border-border hover:border-primary/30"
-                        }`}
-                      >
-                        <div className="text-2xl mb-1">{role.icon}</div>
-                        <p className="font-semibold text-sm text-foreground">
-                          {role.label}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {role.desc}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                  <Button
-                    className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-                    onClick={() => setSignupStep("info")}
-                    data-ocid="signup.next.button"
+                  {/* Red banner */}
+                  <div
+                    className="px-6 py-5"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.40 0.20 22))",
+                    }}
                   >
-                    Continue
-                  </Button>
+                    <h2 className="font-display font-bold text-xl text-white">
+                      Join DonorSync
+                    </h2>
+                    <p className="text-white/70 text-xs mt-1">
+                      Select your role to get started
+                    </p>
+                  </div>
+
+                  <div className="bg-white p-6">
+                    <div className="grid grid-cols-2 gap-3 mb-5">
+                      {ROLES.map((role) => (
+                        <button
+                          type="button"
+                          key={role.value}
+                          onClick={() => setSelectedRole(role.value)}
+                          data-ocid={`signup.role.${role.value.toLowerCase()}.button`}
+                          className="p-4 rounded-xl border-2 text-left transition-all duration-200"
+                          style={{
+                            borderColor:
+                              selectedRole === role.value
+                                ? "oklch(0.50 0.22 27)"
+                                : "oklch(0.92 0.006 20)",
+                            background:
+                              selectedRole === role.value
+                                ? "oklch(0.50 0.22 27 / 0.06)"
+                                : "white",
+                            boxShadow:
+                              selectedRole === role.value
+                                ? "0 0 14px oklch(0.52 0.22 27 / 0.2)"
+                                : "none",
+                          }}
+                        >
+                          <div className="text-2xl mb-1">{role.icon}</div>
+                          <p className="font-semibold text-sm text-foreground">
+                            {role.label}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            {role.desc}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full rounded-full text-white font-semibold"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                        boxShadow: "0 0 16px oklch(0.52 0.22 27 / 0.35)",
+                      }}
+                      onClick={() => setSignupStep("info")}
+                      data-ocid="signup.next.button"
+                    >
+                      Continue
+                    </Button>
+                  </div>
                 </motion.div>
               )}
 
               {signupStep === "info" && (
                 <motion.div
                   key="info"
-                  className="bg-card rounded-2xl p-6 card-shadow border border-border space-y-4"
+                  className="rounded-3xl overflow-hidden"
+                  style={{ boxShadow: "0 8px 40px oklch(0.52 0.22 27 / 0.15)" }}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -16 }}
                 >
-                  <div className="flex items-center gap-3">
+                  {/* Red banner */}
+                  <div
+                    className="px-6 py-4 flex items-center gap-3"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.40 0.20 22))",
+                    }}
+                  >
                     <button
                       type="button"
                       onClick={() => setSignupStep("role")}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-white/70 hover:text-white transition-colors"
                     >
                       <ArrowLeft className="w-4 h-4" />
                     </button>
                     <div>
-                      <h2 className="font-display font-bold text-xl text-foreground">
+                      <h2 className="font-display font-bold text-lg text-white">
                         Your Information
                       </h2>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-white/70 text-xs">
                         Role:{" "}
                         {ROLES.find((r) => r.value === selectedRole)?.label}
                       </p>
                     </div>
                   </div>
 
-                  {!identity ? (
-                    <div className="text-center py-4">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Connect Internet Identity to continue
+                  <div className="bg-white p-6 space-y-4">
+                    {!identity ? (
+                      <div className="text-center py-4">
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Connect Internet Identity to continue
+                        </p>
+                        <Button
+                          variant="outline"
+                          className="rounded-full"
+                          style={{
+                            borderColor: "oklch(0.52 0.22 27 / 0.3)",
+                            color: "oklch(0.50 0.22 27)",
+                          }}
+                          onClick={handleLogin}
+                          disabled={isLoggingIn}
+                          data-ocid="signup.connect_identity.button"
+                        >
+                          <Shield className="w-4 h-4 mr-2" />
+                          {isLoggingIn ? "Connecting..." : "Connect Identity"}
+                        </Button>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-green-600 flex items-center gap-1">
+                        <CheckCircle className="w-3 h-3" />
+                        Identity connected:{" "}
+                        {identity.getPrincipal().toString().slice(0, 20)}...
                       </p>
-                      <Button
-                        variant="outline"
-                        className="rounded-full"
-                        onClick={handleLogin}
-                        disabled={isLoggingIn}
-                        data-ocid="signup.connect_identity.button"
-                      >
-                        <Shield className="w-4 h-4 mr-2 text-primary" />
-                        {isLoggingIn ? "Connecting..." : "Connect Identity"}
-                      </Button>
-                    </div>
-                  ) : (
-                    <p className="text-xs text-green-600 flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3" />
-                      Identity connected:{" "}
-                      {identity.getPrincipal().toString().slice(0, 20)}...
-                    </p>
-                  )}
-
-                  <div className="space-y-3">
-                    <div>
-                      <Label className="text-xs font-medium">Full Name *</Label>
-                      <Input
-                        placeholder="Your full name"
-                        className="rounded-xl mt-1"
-                        value={form.name}
-                        onChange={(e) =>
-                          setForm((p) => ({ ...p, name: e.target.value }))
-                        }
-                        data-ocid="signup.name.input"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-xs font-medium">Email *</Label>
-                      <Input
-                        placeholder="you@example.com"
-                        type="email"
-                        className="rounded-xl mt-1"
-                        value={form.email}
-                        onChange={(e) =>
-                          setForm((p) => ({ ...p, email: e.target.value }))
-                        }
-                        data-ocid="signup.email.input"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-xs font-medium">Phone *</Label>
-                      <Input
-                        placeholder="+91 9876543210"
-                        className="rounded-xl mt-1"
-                        value={form.phone}
-                        onChange={(e) =>
-                          setForm((p) => ({ ...p, phone: e.target.value }))
-                        }
-                        data-ocid="signup.phone.input"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-xs font-medium">Address</Label>
-                      <Input
-                        placeholder="Your city, state"
-                        className="rounded-xl mt-1"
-                        value={form.address}
-                        onChange={(e) =>
-                          setForm((p) => ({ ...p, address: e.target.value }))
-                        }
-                        data-ocid="signup.address.input"
-                      />
-                    </div>
-
-                    {selectedRole === AppRole.PublicUser && (
-                      <div>
-                        <Label className="text-xs font-medium">
-                          Aadhar Number
-                        </Label>
-                        <Input
-                          placeholder="XXXX XXXX XXXX"
-                          className="rounded-xl mt-1"
-                          value={form.aadharNumber}
-                          onChange={(e) =>
-                            setForm((p) => ({
-                              ...p,
-                              aadharNumber: e.target.value,
-                            }))
-                          }
-                          data-ocid="signup.aadhar.input"
-                        />
-                      </div>
                     )}
 
-                    {(selectedRole === AppRole.Hospital ||
-                      selectedRole === AppRole.Trust) && (
+                    <div className="space-y-3">
                       <div>
-                        <Label className="text-xs font-medium">
-                          Registration Number
+                        <Label className="text-xs font-semibold">
+                          Full Name *
                         </Label>
                         <Input
-                          placeholder="Official reg. number"
+                          placeholder="Your full name"
                           className="rounded-xl mt-1"
-                          value={form.registrationNumber}
+                          value={form.name}
                           onChange={(e) =>
-                            setForm((p) => ({
-                              ...p,
-                              registrationNumber: e.target.value,
-                            }))
+                            setForm((p) => ({ ...p, name: e.target.value }))
                           }
-                          data-ocid="signup.registration_number.input"
+                          data-ocid="signup.name.input"
                         />
                       </div>
-                    )}
+                      <div>
+                        <Label className="text-xs font-semibold">Email *</Label>
+                        <Input
+                          placeholder="you@example.com"
+                          type="email"
+                          className="rounded-xl mt-1"
+                          value={form.email}
+                          onChange={(e) =>
+                            setForm((p) => ({ ...p, email: e.target.value }))
+                          }
+                          data-ocid="signup.email.input"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs font-semibold">Phone *</Label>
+                        <Input
+                          placeholder="+91 9876543210"
+                          className="rounded-xl mt-1"
+                          value={form.phone}
+                          onChange={(e) =>
+                            setForm((p) => ({ ...p, phone: e.target.value }))
+                          }
+                          data-ocid="signup.phone.input"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs font-semibold">Address</Label>
+                        <Input
+                          placeholder="Your city, state"
+                          className="rounded-xl mt-1"
+                          value={form.address}
+                          onChange={(e) =>
+                            setForm((p) => ({ ...p, address: e.target.value }))
+                          }
+                          data-ocid="signup.address.input"
+                        />
+                      </div>
 
-                    {selectedRole === AppRole.Doctor && (
-                      <div>
-                        <Label className="text-xs font-medium">
-                          Specialization
-                        </Label>
-                        <Input
-                          placeholder="e.g. Cardiology, General Medicine"
-                          className="rounded-xl mt-1"
-                          value={form.specialization}
-                          onChange={(e) =>
-                            setForm((p) => ({
-                              ...p,
-                              specialization: e.target.value,
-                            }))
-                          }
-                          data-ocid="signup.specialization.input"
-                        />
-                      </div>
-                    )}
+                      {selectedRole === AppRole.PublicUser && (
+                        <div>
+                          <Label className="text-xs font-semibold">
+                            Aadhar Number
+                          </Label>
+                          <Input
+                            placeholder="XXXX XXXX XXXX"
+                            className="rounded-xl mt-1"
+                            value={form.aadharNumber}
+                            onChange={(e) =>
+                              setForm((p) => ({
+                                ...p,
+                                aadharNumber: e.target.value,
+                              }))
+                            }
+                            data-ocid="signup.aadhar.input"
+                          />
+                        </div>
+                      )}
+
+                      {(selectedRole === AppRole.Hospital ||
+                        selectedRole === AppRole.Trust) && (
+                        <div>
+                          <Label className="text-xs font-semibold">
+                            Registration Number
+                          </Label>
+                          <Input
+                            placeholder="Official reg. number"
+                            className="rounded-xl mt-1"
+                            value={form.registrationNumber}
+                            onChange={(e) =>
+                              setForm((p) => ({
+                                ...p,
+                                registrationNumber: e.target.value,
+                              }))
+                            }
+                            data-ocid="signup.registration_number.input"
+                          />
+                        </div>
+                      )}
+
+                      {selectedRole === AppRole.Doctor && (
+                        <div>
+                          <Label className="text-xs font-semibold">
+                            Specialization
+                          </Label>
+                          <Input
+                            placeholder="e.g. Cardiology, General Medicine"
+                            className="rounded-xl mt-1"
+                            value={form.specialization}
+                            onChange={(e) =>
+                              setForm((p) => ({
+                                ...p,
+                                specialization: e.target.value,
+                              }))
+                            }
+                            data-ocid="signup.specialization.input"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    <Button
+                      className="w-full rounded-full text-white font-semibold"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                        boxShadow: "0 0 16px oklch(0.52 0.22 27 / 0.35)",
+                      }}
+                      onClick={handleSignupSubmit}
+                      disabled={submitting || !identity}
+                      data-ocid="signup.submit.button"
+                    >
+                      {submitting ? (
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      ) : null}
+                      Submit for Verification
+                    </Button>
                   </div>
-
-                  <Button
-                    className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-                    onClick={handleSignupSubmit}
-                    disabled={submitting || !identity}
-                    data-ocid="signup.submit.button"
-                  >
-                    {submitting ? (
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    ) : null}
-                    Submit for Verification
-                  </Button>
                 </motion.div>
               )}
 
               {signupStep === "pending" && (
                 <motion.div
                   key="pending"
-                  className="bg-card rounded-2xl p-8 card-shadow border border-border text-center"
+                  className="bg-white rounded-3xl p-8 text-center"
+                  style={{ boxShadow: "0 8px 40px oklch(0.52 0.22 27 / 0.15)" }}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-8 h-8 text-primary" />
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                    style={{
+                      background: "oklch(0.50 0.22 27 / 0.10)",
+                      boxShadow: "0 0 24px oklch(0.52 0.22 27 / 0.3)",
+                    }}
+                  >
+                    <CheckCircle
+                      className="w-8 h-8"
+                      style={{ color: "oklch(0.50 0.22 27)" }}
+                    />
                   </div>
                   <h2 className="font-display font-bold text-2xl text-foreground mb-2">
                     Verification Pending
@@ -472,7 +587,11 @@ export function AuthPage({ onBack, onSuccess }: AuthPageProps) {
                     and approve your account within 24–48 hours.
                   </p>
                   <Button
-                    className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+                    className="w-full rounded-full text-white font-semibold pulse-glow"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                    }}
                     onClick={onSuccess}
                     data-ocid="signup.continue.button"
                   >

@@ -20,43 +20,44 @@
   :root {
     --radius: 0.75rem;
 
-    /* DonorSync palette — Primary red #D83A3A, deep red #B31217 */
-    --donor-red: 0.52 0.19 27;
-    --donor-deep-red: 0.42 0.19 22;
-    --donor-pink-glow: 0.95 0.03 15;
+    /* DonorSync palette — vivid red, luminant */
+    --donor-red: 0.5 0.22 27;
+    --donor-deep-red: 0.4 0.2 22;
+    --donor-pink-glow: 0.95 0.04 18;
+    --glow-primary: oklch(0.52 0.22 27 / 0.45);
 
-    --background: 0.965 0.004 0;
-    --foreground: 0.18 0.008 0;
+    --background: 0.98 0.003 20;
+    --foreground: 0.16 0.01 20;
     --card: 1 0 0;
-    --card-foreground: 0.18 0.008 0;
+    --card-foreground: 0.16 0.01 20;
     --popover: 1 0 0;
-    --popover-foreground: 0.18 0.008 0;
-    --primary: 0.52 0.19 27;
+    --popover-foreground: 0.16 0.01 20;
+    --primary: 0.5 0.22 27;
     --primary-foreground: 1 0 0;
-    --secondary: 0.97 0.008 15;
-    --secondary-foreground: 0.52 0.19 27;
-    --muted: 0.97 0.004 0;
-    --muted-foreground: 0.55 0.008 0;
-    --accent: 0.95 0.03 15;
-    --accent-foreground: 0.42 0.19 22;
-    --destructive: 0.52 0.19 27;
+    --secondary: 0.97 0.008 20;
+    --secondary-foreground: 0.5 0.22 27;
+    --muted: 0.96 0.005 15;
+    --muted-foreground: 0.52 0.008 15;
+    --accent: 0.96 0.025 18;
+    --accent-foreground: 0.4 0.2 22;
+    --destructive: 0.5 0.22 27;
     --destructive-foreground: 1 0 0;
-    --border: 0.92 0.004 0;
-    --input: 0.92 0.004 0;
-    --ring: 0.52 0.19 27;
-    --chart-1: 0.52 0.19 27;
+    --border: 0.92 0.006 20;
+    --input: 0.91 0.006 20;
+    --ring: 0.5 0.22 27;
+    --chart-1: 0.5 0.22 27;
     --chart-2: 0.6 0.12 184;
     --chart-3: 0.45 0.1 200;
     --chart-4: 0.75 0.18 85;
     --chart-5: 0.65 0.15 70;
     --sidebar: 1 0 0;
-    --sidebar-foreground: 0.18 0.008 0;
-    --sidebar-primary: 0.52 0.19 27;
+    --sidebar-foreground: 0.16 0.01 20;
+    --sidebar-primary: 0.5 0.22 27;
     --sidebar-primary-foreground: 1 0 0;
-    --sidebar-accent: 0.97 0.008 15;
-    --sidebar-accent-foreground: 0.52 0.19 27;
-    --sidebar-border: 0.92 0.004 0;
-    --sidebar-ring: 0.52 0.19 27;
+    --sidebar-accent: 0.96 0.025 18;
+    --sidebar-accent-foreground: 0.5 0.22 27;
+    --sidebar-border: 0.92 0.006 20;
+    --sidebar-ring: 0.5 0.22 27;
   }
 
   * {
@@ -69,36 +70,73 @@
 }
 
 @layer utilities {
+  /* Luminant glow utilities */
+  .glow-red {
+    box-shadow: 0 0 24px oklch(0.52 0.22 27 / 0.45), 0 0 8px
+      oklch(0.52 0.22 27 / 0.25);
+  }
+  .glow-red-sm {
+    box-shadow: 0 0 12px oklch(0.52 0.22 27 / 0.35);
+  }
+  .glow-card {
+    box-shadow: 0 4px 24px oklch(0.52 0.22 27 / 0.1), 0 1px 4px
+      oklch(0 0 0 / 0.05);
+  }
+  .pulse-glow {
+    animation: pulseGlow 2.2s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 12px oklch(0.52 0.22 27 / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 28px oklch(0.52 0.22 27 / 0.75), 0 0 52px
+        oklch(0.52 0.22 27 / 0.3);
+    }
+  }
+  .hero-radial {
+    background: radial-gradient(
+      ellipse 80% 70% at 50% 30%,
+      oklch(0.97 0.04 20 / 0.9) 0%,
+      oklch(0.99 0.01 15 / 0.4) 50%,
+      transparent 75%
+    );
+  }
+  .red-beam {
+    background: linear-gradient(
+      135deg,
+      oklch(0.5 0.22 27) 0%,
+      oklch(0.4 0.2 22) 100%
+    );
+  }
+  .glass-card {
+    background: oklch(1 0 0 / 0.88);
+    backdrop-filter: blur(16px);
+    border: 1px solid oklch(0.52 0.22 27 / 0.18);
+  }
   .hero-glow {
     background: radial-gradient(
       ellipse 70% 60% at 60% 50%,
-      oklch(0.95 0.04 15 / 0.7),
-      oklch(0.98 0.015 15 / 0.3) 50%,
+      oklch(0.96 0.05 18 / 0.75),
+      oklch(0.98 0.02 18 / 0.35) 50%,
       transparent 80%
     );
   }
-
   .red-gradient {
-    background: linear-gradient(
-      135deg,
-      oklch(0.52 0.19 27),
-      oklch(0.42 0.19 22)
-    );
+    background: linear-gradient(135deg, oklch(0.5 0.22 27), oklch(0.4 0.2 22));
   }
-
   .footer-gradient {
     background: linear-gradient(
       135deg,
-      oklch(0.38 0.18 22),
-      oklch(0.28 0.15 22)
+      oklch(0.36 0.18 22),
+      oklch(0.26 0.14 22)
     );
   }
-
   .card-shadow {
-    box-shadow: 0 2px 16px 0 oklch(0.52 0.19 27 / 0.08), 0 1px 4px 0
+    box-shadow: 0 2px 16px 0 oklch(0.52 0.22 27 / 0.08), 0 1px 4px 0
       oklch(0 0 0 / 0.06);
   }
-
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

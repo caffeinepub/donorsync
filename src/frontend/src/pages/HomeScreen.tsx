@@ -102,219 +102,304 @@ export function HomeScreen() {
   ];
 
   return (
-    <div className="space-y-6 px-4 pt-4">
-      {/* Welcome */}
+    <div className="space-y-6 pb-4">
+      {/* Welcome banner */}
       {profile && (
         <motion.div
-          className="bg-accent/40 rounded-2xl p-4 border border-donor-pink-glow/40"
+          className="relative overflow-hidden px-5 pt-5 pb-6"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(0.50 0.22 27) 0%, oklch(0.42 0.20 22) 100%)",
+            boxShadow: "0 4px 20px oklch(0.52 0.22 27 / 0.35)",
+          }}
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <p className="text-sm text-muted-foreground">Welcome back,</p>
-          <p className="font-display font-bold text-xl text-foreground">
+          {/* Glowing orb background */}
+          <div
+            className="absolute -top-8 -right-8 w-36 h-36 rounded-full opacity-20 blur-2xl pointer-events-none"
+            style={{
+              background: "radial-gradient(circle, white 0%, transparent 70%)",
+            }}
+          />
+          <p className="text-white/70 text-sm">Welcome back,</p>
+          <p className="font-display font-extrabold text-2xl text-white mt-0.5">
             {profile.name || "Donor"} ❤️
           </p>
           {profile.verificationStatus === "Pending" && (
-            <div className="flex items-center gap-2 mt-2 text-xs text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full w-fit">
+            <div className="flex items-center gap-2 mt-3 text-xs bg-white/15 text-white px-3 py-1.5 rounded-full w-fit backdrop-blur-sm">
               <AlertTriangle className="w-3 h-3" />
-              Verification pending
+              Verification pending — check back in 24–48h
             </div>
           )}
         </motion.div>
       )}
 
-      {/* Stat cards */}
-      <section>
-        <h2 className="font-display font-bold text-lg text-foreground mb-3">
-          Impact Today
-        </h2>
-        <div className="grid grid-cols-3 gap-3">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              className="bg-card rounded-2xl p-3 card-shadow border border-border text-center"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-1.5">
-                {stat.icon}
-              </div>
-              <p className="font-display font-bold text-base text-foreground">
-                {stat.value}
-              </p>
-              <p className="text-[10px] text-muted-foreground">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Urgent needs */}
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-display font-bold text-lg text-foreground">
-            Urgent Needs
+      <div className="px-4 space-y-6">
+        {/* Stat cards */}
+        <section>
+          <h2
+            className="font-display font-bold text-lg mb-3"
+            style={{
+              borderLeft: "4px solid oklch(0.50 0.22 27)",
+              paddingLeft: "10px",
+            }}
+          >
+            Impact Today
           </h2>
-          {needsLoading && <Skeleton className="w-16 h-4" />}
-        </div>
-        <div className="space-y-3">
-          {needsLoading ? (
-            Array.from({ length: 2 }, (_, i) => i).map((i) => (
-              <Skeleton key={i} className="h-20 rounded-2xl" />
-            ))
-          ) : urgentNeeds && urgentNeeds.length > 0 ? (
-            urgentNeeds.slice(0, 3).map((need, i) => (
+          <div className="grid grid-cols-3 gap-3">
+            {stats.map((stat, i) => (
               <motion.div
-                key={need.id}
-                data-ocid={`urgent_needs.item.${i + 1}`}
-                className="bg-card rounded-2xl p-4 card-shadow border border-border flex items-center justify-between"
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.08 }}
+                key={stat.label}
+                className="bg-white rounded-2xl p-3 glass-card text-center"
+                style={{ boxShadow: "0 4px 16px oklch(0.52 0.22 27 / 0.08)" }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
               >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-primary text-primary-foreground text-[10px] rounded-full border-0">
-                      {need.needType}
-                    </Badge>
-                    <p className="font-semibold text-sm text-foreground">
-                      {need.title}
-                    </p>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {need.description.slice(0, 60)}
-                  </p>
-                </div>
-                <Button
-                  size="sm"
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 text-xs ml-3 shrink-0"
-                  data-ocid={`urgent_needs.donate.button.${i + 1}`}
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center mx-auto mb-1.5"
+                  style={{
+                    background: "oklch(0.50 0.22 27 / 0.10)",
+                    color: "oklch(0.50 0.22 27)",
+                  }}
                 >
-                  Help
-                </Button>
+                  {stat.icon}
+                </div>
+                <p
+                  className="font-display font-extrabold text-base"
+                  style={{
+                    color: "oklch(0.50 0.22 27)",
+                    textShadow: "0 0 12px oklch(0.52 0.22 27 / 0.25)",
+                  }}
+                >
+                  {stat.value}
+                </p>
+                <p className="text-[10px] text-muted-foreground">
+                  {stat.label}
+                </p>
               </motion.div>
-            ))
-          ) : (
-            <div
-              className="bg-accent/30 rounded-2xl p-6 text-center"
-              data-ocid="urgent_needs.empty_state"
-            >
-              <Droplets className="w-8 h-8 text-primary/40 mx-auto mb-2" />
-              <p className="text-sm text-muted-foreground">
-                No urgent needs right now
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Nearby hospitals with events */}
-      <section className="pb-28">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-display font-bold text-lg text-foreground">
-            Nearby Hospitals
-          </h2>
-          <div className="flex gap-1">
-            <button
-              type="button"
-              className="w-7 h-7 rounded-full border border-border flex items-center justify-center hover:bg-accent text-xs"
-              onClick={() => setCarouselIdx((p) => Math.max(0, p - 1))}
-              disabled={carouselIdx === 0}
-              data-ocid="hospitals.prev.button"
-            >
-              <ChevronLeft className="w-3 h-3" />
-            </button>
-            <button
-              type="button"
-              className="w-7 h-7 rounded-full border border-border flex items-center justify-center hover:bg-accent text-xs"
-              onClick={() => setCarouselIdx((p) => Math.min(maxIdx, p + 1))}
-              disabled={carouselIdx >= maxIdx}
-              data-ocid="hospitals.next.button"
-            >
-              <ChevronRight className="w-3 h-3" />
-            </button>
-          </div>
-        </div>
-
-        {eventsLoading ? (
-          <div className="space-y-3" data-ocid="hospitals.loading_state">
-            {Array.from({ length: 2 }, (_, i) => i).map((i) => (
-              <Skeleton key={i} className="h-36 rounded-2xl" />
             ))}
           </div>
-        ) : (
-          <div className="overflow-hidden">
-            <motion.div
-              className="flex gap-3"
-              animate={{ x: `-${carouselIdx * (300 + 12)}px` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        </section>
+
+        {/* Urgent needs */}
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h2
+              className="font-display font-bold text-lg"
+              style={{
+                borderLeft: "4px solid oklch(0.50 0.22 27)",
+                paddingLeft: "10px",
+              }}
             >
-              {displayEvents.map((ev, i) => (
+              Urgent Needs
+            </h2>
+            {needsLoading && <Skeleton className="w-16 h-4" />}
+          </div>
+          <div className="space-y-3">
+            {needsLoading ? (
+              Array.from({ length: 2 }, (_, i) => i).map((i) => (
+                <Skeleton key={i} className="h-20 rounded-2xl" />
+              ))
+            ) : urgentNeeds && urgentNeeds.length > 0 ? (
+              urgentNeeds.slice(0, 3).map((need, i) => (
                 <motion.div
-                  key={ev.id}
-                  data-ocid={`hospitals.item.${i + 1}`}
-                  className="min-w-[300px] bg-card rounded-2xl p-5 card-shadow border border-border flex-shrink-0"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  key={need.id}
+                  data-ocid={`urgent_needs.item.${i + 1}`}
+                  className="bg-white rounded-2xl p-4 glass-card flex items-center justify-between"
+                  style={{ boxShadow: "0 4px 16px oklch(0.52 0.22 27 / 0.08)" }}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.08 }}
                 >
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <Building2 className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-sm text-foreground">
-                        {ev.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                        <MapPin className="w-3 h-3" /> {ev.location}
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        className="text-[10px] rounded-full border-0 font-semibold"
+                        style={{
+                          background: "oklch(0.50 0.22 27)",
+                          color: "white",
+                          boxShadow: "0 0 8px oklch(0.52 0.22 27 / 0.4)",
+                        }}
+                      >
+                        {need.needType}
+                      </Badge>
+                      <p className="font-semibold text-sm text-foreground">
+                        {need.title}
                       </p>
                     </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1 mb-3">
-                    <Clock className="w-3 h-3" />
-                    {new Date(
-                      typeof ev.date === "bigint"
-                        ? Number(ev.date) / 1_000_000
-                        : ev.date,
-                    ).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {ev.bloodGroupsNeeded.map((bg) => (
-                      <span
-                        key={bg}
-                        className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full"
-                      >
-                        {bg}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      {ev.currentRegistrations.toString()}/
-                      {ev.maxRegistrations.toString()} registered
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {need.description.slice(0, 60)}
                     </p>
-                    <Button
-                      size="sm"
-                      className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 text-xs h-7"
-                      onClick={() => handleRegister(ev.id)}
-                      disabled={registerMutation.isPending}
-                      data-ocid={`hospitals.register.button.${i + 1}`}
-                    >
-                      Register
-                    </Button>
                   </div>
+                  <Button
+                    size="sm"
+                    className="rounded-full text-white text-xs ml-3 shrink-0"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                    }}
+                    data-ocid={`urgent_needs.donate.button.${i + 1}`}
+                  >
+                    Help
+                  </Button>
                 </motion.div>
-              ))}
-            </motion.div>
+              ))
+            ) : (
+              <div
+                className="bg-white rounded-2xl p-6 text-center glass-card"
+                data-ocid="urgent_needs.empty_state"
+              >
+                <Droplets
+                  className="w-8 h-8 mx-auto mb-2"
+                  style={{ color: "oklch(0.50 0.22 27 / 0.4)" }}
+                />
+                <p className="text-sm text-muted-foreground">
+                  No urgent needs right now
+                </p>
+              </div>
+            )}
           </div>
-        )}
-      </section>
+        </section>
+
+        {/* Nearby hospitals with events */}
+        <section className="pb-28">
+          <div className="flex items-center justify-between mb-3">
+            <h2
+              className="font-display font-bold text-lg"
+              style={{
+                borderLeft: "4px solid oklch(0.50 0.22 27)",
+                paddingLeft: "10px",
+              }}
+            >
+              Nearby Hospitals
+            </h2>
+            <div className="flex gap-1">
+              <button
+                type="button"
+                className="w-7 h-7 rounded-full border flex items-center justify-center hover:bg-accent text-xs transition-colors"
+                style={{ borderColor: "oklch(0.52 0.22 27 / 0.3)" }}
+                onClick={() => setCarouselIdx((p) => Math.max(0, p - 1))}
+                disabled={carouselIdx === 0}
+                data-ocid="hospitals.prev.button"
+              >
+                <ChevronLeft className="w-3 h-3" />
+              </button>
+              <button
+                type="button"
+                className="w-7 h-7 rounded-full flex items-center justify-center text-xs"
+                style={{
+                  background:
+                    "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                  boxShadow: "0 0 8px oklch(0.52 0.22 27 / 0.4)",
+                }}
+                onClick={() => setCarouselIdx((p) => Math.min(maxIdx, p + 1))}
+                disabled={carouselIdx >= maxIdx}
+                data-ocid="hospitals.next.button"
+              >
+                <ChevronRight className="w-3 h-3 text-white" />
+              </button>
+            </div>
+          </div>
+
+          {eventsLoading ? (
+            <div className="space-y-3" data-ocid="hospitals.loading_state">
+              {Array.from({ length: 2 }, (_, i) => i).map((i) => (
+                <Skeleton key={i} className="h-36 rounded-2xl" />
+              ))}
+            </div>
+          ) : (
+            <div className="overflow-hidden">
+              <motion.div
+                className="flex gap-3"
+                animate={{ x: `-${carouselIdx * (300 + 12)}px` }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                {displayEvents.map((ev, i) => (
+                  <motion.div
+                    key={ev.id}
+                    data-ocid={`hospitals.item.${i + 1}`}
+                    className="min-w-[300px] bg-white rounded-2xl p-5 glass-card flex-shrink-0"
+                    style={{
+                      boxShadow: "0 4px 16px oklch(0.52 0.22 27 / 0.08)",
+                    }}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                        style={{
+                          background: "oklch(0.50 0.22 27 / 0.10)",
+                          color: "oklch(0.50 0.22 27)",
+                        }}
+                      >
+                        <Building2 className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-sm text-foreground">
+                          {ev.title}
+                        </h3>
+                        <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                          <MapPin className="w-3 h-3" /> {ev.location}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground flex items-center gap-1 mb-3">
+                      <Clock className="w-3 h-3" />
+                      {new Date(
+                        typeof ev.date === "bigint"
+                          ? Number(ev.date) / 1_000_000
+                          : ev.date,
+                      ).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {ev.bloodGroupsNeeded.map((bg) => (
+                        <span
+                          key={bg}
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                          style={{
+                            background: "oklch(0.50 0.22 27 / 0.10)",
+                            color: "oklch(0.40 0.20 22)",
+                          }}
+                        >
+                          {bg}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground">
+                        {ev.currentRegistrations.toString()}/
+                        {ev.maxRegistrations.toString()} registered
+                      </p>
+                      <Button
+                        size="sm"
+                        className="rounded-full text-white text-xs h-7"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, oklch(0.50 0.22 27), oklch(0.42 0.20 22))",
+                        }}
+                        onClick={() => handleRegister(ev.id)}
+                        disabled={registerMutation.isPending}
+                        data-ocid={`hospitals.register.button.${i + 1}`}
+                      >
+                        Register
+                      </Button>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 }

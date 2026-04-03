@@ -44,7 +44,6 @@ function AppShell() {
   const { data: isAdmin } = useIsAdmin();
   const { data: pending } = usePendingVerifications();
 
-  // Auto-redirect when identity becomes available
   useEffect(() => {
     if (identity && screen === "landing") {
       setScreen("app");
@@ -68,7 +67,6 @@ function AppShell() {
     ) {
       setDashScreen(target as DashboardScreen);
     } else {
-      // profile, etc — just switch to menu for now
       setActiveTab("menu");
     }
   };
@@ -82,7 +80,6 @@ function AppShell() {
     }
   };
 
-  // Determine role-specific home screen
   const getDefaultDashboard = (): DashboardScreen => {
     if (isAdmin) return "admin";
     if (!profile) return "home";
@@ -124,29 +121,34 @@ function AppShell() {
     );
   }
 
-  // App shell with bottom nav
   const currentDash = dashScreen;
 
   return (
     <div className="min-h-screen bg-background">
-      {/* App Header */}
-      <header className="sticky top-0 z-40 bg-card border-b border-border px-4 py-3 flex items-center justify-between shadow-xs">
+      {/* App Header — vivid red gradient */}
+      <header
+        className="sticky top-0 z-40 red-beam px-4 py-3 flex items-center justify-between"
+        style={{ boxShadow: "0 4px 24px oklch(0.52 0.22 27 / 0.45)" }}
+      >
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Heart className="w-4 h-4 text-primary fill-primary/30" />
+          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+            <Heart className="w-4 h-4 text-white fill-white/60" />
           </div>
-          <span className="font-display font-bold text-base text-foreground">
+          <span className="font-display font-bold text-base text-white tracking-wide">
             DonorSync
           </span>
         </div>
         {profile && (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-              <span className="font-bold text-xs text-primary">
+            <div
+              className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center"
+              style={{ boxShadow: "0 0 8px oklch(1 0 0 / 0.3)" }}
+            >
+              <span className="font-bold text-xs text-white">
                 {profile.name?.[0]?.toUpperCase() ?? "U"}
               </span>
             </div>
-            <span className="text-xs text-muted-foreground hidden sm:block">
+            <span className="text-xs text-white/80 hidden sm:block">
               {profile.name}
             </span>
           </div>
